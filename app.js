@@ -161,17 +161,18 @@ function renderQR(data) {
   const vcard = buildVCard(data);
 
   const qr = new QRCodeStyling({
-    data: vcard,
+   data: vcard,
     width: 300,
     height: 300,
     image: "assets/img/logo-192.png",
     qrOptions: {
-      errorCorrectionLevel: "H"
-    },
+      errorCorrectionLevel: "L",
+      mode: "Byte"
+   },
     imageOptions: {
         saveAsBlob:true, 
         hideBackgroundDots:true,
-        imageSize:0.2,
+        imageSize: 0.6,
         margin: 5},
     dotsOptions:{
         type: "extra-rounded",
@@ -252,17 +253,17 @@ function renderCard(d) {
 ========================================================= */
 
 function buildVCard(d) {
-  return [
+  return toByteDataString([
     "BEGIN:VCARD",
     "VERSION:3.0",
 
-    `N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${toQuotedPrintable(d.cognoms)};${toQuotedPrintable(d.nom)};;;`,
+    `N;CHARSET=UTF-8:${d.cognoms};${d.nom};;;`,
     d.organitzacio
-      ? `ORG;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${toQuotedPrintable(d.organitzacio)}`
+      ? `ORG;CHARSET=UTF-8:${d.organitzacio}`
       : "",
 
     d.carrec
-      ? `TITLE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:${toQuotedPrintable(d.carrec)}`
+      ? `TITLE;CHARSET=UTF-8:${d.carrec}`
       : "",
 
     d.telefonFix
@@ -282,13 +283,23 @@ function buildVCard(d) {
       : "",
 
     (d.carrer || d.ciutat || d.cp || d.pais)
-      ? `ADR;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE;TYPE=WORK:;;${toQuotedPrintable(d.carrer)};${toQuotedPrintable(d.ciutat)};;${toQuotedPrintable(d.cp)};${toQuotedPrintable(d.pais)}`
+      ? `ADR;CHARSET=UTF-8;TYPE=WORK:;;${toQuotedPrintable(d.carrer)};${toQuotedPrintable(d.ciutat)};;${toQuotedPrintable(d.cp)};${toQuotedPrintable(d.pais)}`
       : "",
 
     "END:VCARD"
   ]
     .filter(Boolean)
-    .join("\n");
+    .join("\n"));
+}
+
+function toByteDataString(str) {
+    const encoder = new TextEncoder();
+    const byteArray = encoder.encode(str);
+    let binaryStr = "";
+    for (let i = 0; i < byteArray.length; i++) {
+        binaryStr += String.fromCharCode(byteArray[i]);
+    }
+    return binaryStr;
 }
 
 /* =========================================================
@@ -298,7 +309,6 @@ function buildVCard(d) {
 function sanitizeText(v = "") {
   return v
     .replace(/<[^>]*>/g, "")
-    .replace(/["'`]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }
