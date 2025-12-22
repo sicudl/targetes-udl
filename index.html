@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Targeta Visita UdL</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+<main id="app">
+
+  <!-- FORMULARI -->
+  <section id="form-view" class="view hidden">
+    <h1>Edita les dades</h1>
+
+    <p class="form-note">
+      Les dades que modifiquis només afecten la versió de l’idioma actual.
+    </p>
+
+    <form id="contact-form">
+
+      <label>Nom
+        <input name="nom" />
+      </label>
+
+      <label>Cognoms
+        <input name="cognoms" />
+      </label>
+
+      <label>Càrrec
+        <input name="carrec" />
+      </label>
+
+      <label>Organització
+        <input name="organitzacio" value="Universitat de Lleida" />
+      </label>
+
+      <label>Telèfon fix
+        <input name="telefonFix" />
+      </label>
+
+      <label>Telèfon mòbil
+        <input name="telefonMobil" />
+      </label>
+
+      <label>Email
+        <input name="email" />
+      </label>
+
+      <label>Web
+        <input name="web" placeholder="https://…" />
+      </label>
+
+      <label>Carrer
+        <input name="carrer" />
+      </label>
+
+      <label>Codi postal
+        <input name="cp" />
+      </label>
+
+      <label>Ciutat
+        <input name="ciutat" />
+      </label>
+
+      <label>País
+        <input name="pais" />
+      </label>
+
+      <button type="submit">Desa</button>
+      <button type="button" id="cancel-btn" class="secondary">Cancel·la</button>
+    </form>
+  </section>
+
+  <!-- PRINCIPAL -->
+  <section id="main-view" class="view hidden">
+
+    <header>Universitat de Lleida</header>
+
+    <div class="lang-tabs">
+      <button data-lang="ca" class="active">CA</button>
+      <button data-lang="es">ES</button>
+      <button data-lang="en">EN</button>
+    </div>
+
+    <div id="qr-container"></div>
+
+    <div class="card" id="contact-card"></div>
+
+    <button id="edit-btn" class="edit-btn">Edita les dades</button>
+
+  </section>
+
+</main>
+
+<script src="assets/js/qr-code-styling.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
