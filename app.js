@@ -283,7 +283,7 @@ function buildVCard(d) {
       : "",
 
     (d.carrer || d.ciutat || d.cp || d.pais)
-      ? `ADR;CHARSET=UTF-8;TYPE=WORK:;;${toQuotedPrintable(d.carrer)};${toQuotedPrintable(d.ciutat)};;${toQuotedPrintable(d.cp)};${toQuotedPrintable(d.pais)}`
+      ? `ADR;CHARSET=UTF-8;TYPE=WORK:;;${d.carrer};${d.ciutat};;${d.cp};${d.pais}`
       : "",
 
     "END:VCARD"
@@ -341,22 +341,3 @@ function escapeHtml(str = "") {
     .replace(/>/g, "&gt;");
 }
 
-/* =========================================================
-   QUOTED PRINTABLE (UTF-8 SAFE)
-========================================================= */
-
-function toQuotedPrintable(str = "") {
-  const utf8 = new TextEncoder().encode(str);
-  let out = "";
-
-  for (const b of utf8) {
-    if ((b >= 33 && b <= 60) || (b >= 62 && b <= 126)) {
-      out += String.fromCharCode(b);
-    } else if (b === 32) {
-      out += "=20";
-    } else {
-      out += "=" + b.toString(16).toUpperCase().padStart(2, "0");
-    }
-  }
-  return out;
-}
