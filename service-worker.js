@@ -22,8 +22,8 @@ const STATIC_ASSETS = [
   "./assets/js/qr-code-styling.js",
 
   // Icones / imatges
-  "./assets/logo-192.png",
-  "./assets/logo-512.png",
+  "./assets/img/logo-192.png",
+  "./assets/img/logo-512.png",
 
   //Fonts
   "./assets/fonts/material-icons.ttf"

@@ -21,6 +21,10 @@ const langButtons = document.querySelectorAll(".lang-tabs button");
    INIT
 ========================================================= */
 
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./service-worker.js");
+}
+
 init();
 
 function init() {
