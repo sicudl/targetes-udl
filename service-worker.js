@@ -3,9 +3,10 @@
    Estratègia: Offline First (Cache + Network Fallback)
 ========================================================= */
 
-const CACHE_VERSION = "udl-vcard-v1.0.1";
-const STATIC_CACHE = `${CACHE_VERSION}-static`;
-const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+const VERSION = new URL(self.location.href).searchParams.get("v") || "1.0.0";
+const CACHE_PREFIX = "targetes-udl-v" + VERSION;
+const STATIC_CACHE = CACHE_PREFIX + "-static";
+const RUNTIME_CACHE = CACHE_PREFIX + "-runtime";
 
 /* =========================================================
    Fitxers essencials (app shell)
@@ -51,7 +52,7 @@ self.addEventListener("activate", event => {
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(k => !k.startsWith(CACHE_VERSION))
+          .filter(k => !k.startsWith(CACHE_PREFIX))
           .map(k => caches.delete(k))
       )
     )

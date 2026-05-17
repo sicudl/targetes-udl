@@ -3,6 +3,7 @@
 ========================================================= */
 
 const STORAGE_KEY = "contactData";
+const VERSION = "1.0.2";
 let currentLang = "ca";
 let wakeLock = null;
 
@@ -22,7 +23,7 @@ const langButtons = document.querySelectorAll(".lang-tabs button");
 ========================================================= */
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js");
+  navigator.serviceWorker.register(`./service-worker.js?v=${VERSION}`);
 }
 
 init();
@@ -161,6 +162,8 @@ function renderAll() {
 function renderQR(data) {
   qrContainer.innerHTML = "";
   qrContainer.classList.add("qr-animated");
+
+  qrContainer.addEventListener("dblclick", showVersionModal);
 
   const vcard = buildVCard(data);
 
@@ -343,5 +346,19 @@ function escapeHtml(str = "") {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+}
+
+function showVersionModal() {
+  const modal = document.createElement("div");
+  modal.className = "version-modal";
+  modal.innerHTML = `
+    <div class="version-modal-content">
+      <p>Targetes UdL</p>
+      <p class="version">v${VERSION}</p>
+    </div>
+  `;
+  modal.addEventListener("click", () => modal.remove());
+  document.body.appendChild(modal);
+  setTimeout(() => modal.remove(), 3000);
 }
 
